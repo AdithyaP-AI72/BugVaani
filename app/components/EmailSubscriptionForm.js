@@ -1,14 +1,15 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { BellRing } from "lucide-react";
+import { useState } from "react";
 
 export default function EmailSubscriptionForm() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [messageType, setMessageType] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [emailError, setEmailError] = useState('');
+  const [emailError, setEmailError] = useState("");
 
   const validateEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -17,21 +18,21 @@ export default function EmailSubscriptionForm() {
   const subscribeHandler = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    setMessage('');
-    setMessageType('');
+    setMessage("");
+    setMessageType("");
 
     if (!validateEmail(email)) {
-      setEmailError('Please enter a valid email address.');
+      setEmailError("Please enter a valid email address.");
       setIsLoading(false);
       return;
     } else {
-      setEmailError('');
+      setEmailError("");
     }
 
     try {
-      const res = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: name.trim(),
           email: email.trim(),
@@ -42,31 +43,34 @@ export default function EmailSubscriptionForm() {
 
       if (res.ok) {
         setMessage(data.message);
-        setMessageType('success');
-        setName('');
-        setEmail('');
+        setMessageType("success");
+        setName("");
+        setEmail("");
       } else {
-        setMessage(data.message || 'Something went wrong.');
-        setMessageType('error');
+        setMessage(data.message || "Something went wrong.");
+        setMessageType("error");
       }
     } catch (error) {
-      setMessage('An error occurred. Please try again.');
-      setMessageType('error');
+      setMessage("An error occurred. Please try again.");
+      setMessageType("error");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center px-4 sm:px-0 mt-10">
-      <div className="w-full max-w-md bg-white dark:bg-gray-900 dark:text-white backdrop-blur-md rounded-xl shadow-xl p-8 transition hover:shadow-[0_0_40px_rgba(0,0,0,0.1)]">
-        <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">
-          💌 Subscribe for Issue Updates
+    <div className="flex items-center justify-center px-2 xs:px-4 sm:px-0 mt-6 sm:mt-10">
+      <div className="w-full xs:w-[90%] sm:w-[80%] md:w-3/4 lg:w-2/3 xl:w-1/2 bg-white dark:bg-gray-900 dark:text-white backdrop-blur-md rounded-2xl border-2 border-[#ff4a4a] shadow-2xl p-4 sm:p-8 transition hover:shadow-[0_0_40px_rgba(0,0,0,0.1)]">
+        <h2 className="flex items-center gap-3 text-lg sm:text-2xl font-bold text-center text-[#1f2937] dark:text-white mb-4 sm:mb-6">
+          <BellRing className="text-[#ff4a4a]" /> Subscribe for Issue Updates
         </h2>
 
-        <form onSubmit={subscribeHandler} className="space-y-5">
+        <form onSubmit={subscribeHandler} className="space-y-3 sm:space-y-5">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label
+              htmlFor="name"
+              className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >
               Name
             </label>
             <input
@@ -76,12 +80,15 @@ export default function EmailSubscriptionForm() {
               onChange={(e) => setName(e.target.value)}
               placeholder="Your name"
               required
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+              className="w-full px-3 sm:px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#ff4a4a] focus:border-transparent"
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label
+              htmlFor="email"
+              className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >
               Email Address
             </label>
             <input
@@ -91,12 +98,12 @@ export default function EmailSubscriptionForm() {
               onChange={(e) => {
                 setEmail(e.target.value);
                 if (emailError && validateEmail(e.target.value)) {
-                  setEmailError('');
+                  setEmailError("");
                 }
               }}
               placeholder="you@example.com"
               required
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+              className="w-full px-3 sm:px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#ff4a4a] focus:border-transparent"
               aria-describedby="email-error"
             />
             {emailError && (
@@ -111,18 +118,18 @@ export default function EmailSubscriptionForm() {
             disabled={isLoading}
             className={`w-full py-2 px-4 rounded-md text-white font-semibold transition-all duration-200 ${
               isLoading
-                ? 'bg-blue-300 cursor-not-allowed'
-                : 'bg-blue-500 hover:bg-blue-600'
+                ? "bg-[#ff2a2a] cursor-not-allowed"
+                : "bg-[#ff4a4a] hover:bg-[#ff2e2e]"
             }`}
           >
-            {isLoading ? 'Subscribing...' : 'Subscribe'}
+            {isLoading ? "Subscribing..." : "Subscribe"}
           </button>
         </form>
 
         {message && (
           <div
-            className={`mt-4 text-center text-sm font-medium ${
-              messageType === 'success' ? 'text-green-600' : 'text-red-600'
+            className={`mt-4 text-center text-xs sm:text-sm font-medium ${
+              messageType === "success" ? "text-green-600" : "text-red-600"
             }`}
           >
             {message}
