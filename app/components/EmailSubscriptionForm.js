@@ -58,6 +58,13 @@ export default function EmailSubscriptionForm() {
     }
   };
 
+  const handleOnChange = (e) => {
+    setEmail(e.target.value);
+    if (emailError && validateEmail(e.target.value)) {
+      setEmailError("");
+    }
+  };
+
   return (
     <div className="flex items-center justify-center px-2 xs:px-4 sm:px-0 mt-6 sm:mt-10">
       <div className="w-full xs:w-[90%] sm:w-[80%] md:w-3/4 lg:w-2/3 xl:w-1/2 bg-white dark:bg-gray-900 dark:text-white backdrop-blur-md rounded-2xl border-2 border-[#ff4a4a] shadow-2xl p-4 sm:p-8 transition hover:shadow-[0_0_40px_rgba(0,0,0,0.1)]">
@@ -95,12 +102,7 @@ export default function EmailSubscriptionForm() {
               id="email"
               type="email"
               value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                if (emailError && validateEmail(e.target.value)) {
-                  setEmailError("");
-                }
-              }}
+              onChange={handleOnChange}
               placeholder="you@example.com"
               required
               className="w-full px-3 sm:px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#ff4a4a] focus:border-transparent"
